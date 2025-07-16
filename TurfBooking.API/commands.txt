@@ -1,0 +1,7 @@
+Step	Command
+Clone Repo	git clone https://github.com/aravindV14/TurfBookingApp.git
+Enter Folder	cd TurfBooking.API
+Restore Packages	dotnet restore
+Apply Migrations	dotnet ef database update
+Run App	dotnet run
+Open Swagger	Visit http://localhost:5000/swagger
