@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// ✅ Swagger + JWT Bearer Support
+//Swagger + JWT Bearer Support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen(c =>
         Description = "API for Turf Booking / Box Cricket App"
     });
 
-    // 🔐 Add Bearer auth support to Swagger
+    //Add Bearer auth support to Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
@@ -49,14 +49,14 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ✅ EF Core with SQLite
+// EF Core with SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ✅ JWT TokenService
+//JWT TokenService
 builder.Services.AddScoped<TokenService>();
 
-// ✅ JWT Authentication Setup
+//JWT Authentication Setup
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -72,7 +72,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// ✅ CORS for Frontend
+// CORS for Frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>

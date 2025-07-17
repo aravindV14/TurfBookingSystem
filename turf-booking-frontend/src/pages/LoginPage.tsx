@@ -1,30 +1,45 @@
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate()
-  const [identifier, setIdentifier] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const navigate = useNavigate();
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5046/api/Auth/login', {
         identifier,
-        password
-      })
+        password,
+      });
 
-      const token = response.data
-      localStorage.setItem('token', token)
-      setError('')
-      navigate('/dashboard')
+      const token = response.data;
+      localStorage.setItem('token', token);
+      setError('');
+
+      // Decode token to extract role (supports both short and long-form role claim)
+      const decoded: any = jwtDecode(token);
+      console.log('Decoded Token:', decoded);
+
+      const userRole =
+        decoded.role ||
+        decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+      if (userRole === 'Admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+
     } catch (err) {
-      console.error(err)
-      setError('Invalid username/phone or password')
+      console.error(err);
+      setError('Invalid username/phone or password');
     }
-  }
+  };
 
   return (
     <div style={styles.wrapper}>
@@ -51,8 +66,8 @@ const LoginPage: React.FC = () => {
         {error && <p style={styles.error}>{error}</p>}
       </form>
     </div>
-  )
-}
+  );
+};
 
 const styles = {
   wrapper: {
@@ -70,19 +85,19 @@ const styles = {
     padding: '2rem',
     borderRadius: '10px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    width: '320px'
+    width: '320px',
   },
   title: {
     textAlign: 'center' as const,
     marginBottom: '1.5rem',
-    fontSize: '1.5rem'
+    fontSize: '1.5rem',
   },
   input: {
     marginBottom: '1rem',
     padding: '0.75rem',
     fontSize: '1rem',
     borderRadius: '5px',
-    border: '1px solid #ccc'
+    border: '1px solid #ccc',
   },
   button: {
     backgroundColor: '#2563eb',
@@ -91,13 +106,13 @@ const styles = {
     fontSize: '1rem',
     border: 'none',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   error: {
     color: 'red',
     textAlign: 'center' as const,
-    marginTop: '1rem'
-  }
-}
+    marginTop: '1rem',
+  },
+};
 
-export default LoginPage
+export default LoginPage;

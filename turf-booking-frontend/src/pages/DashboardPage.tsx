@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode'
 interface JwtPayload {
   name: string
   role: string
-  exp: number
+  exp: number // Expiration time in seconds
 }
 
 const DashboardPage: React.FC = () => {
@@ -21,9 +21,13 @@ const DashboardPage: React.FC = () => {
     }
 
     try {
-      const decoded = jwtDecode<JwtPayload>(token)
-      setUserName(decoded.name)
-      setRole(decoded.role)
+      const decoded: any = jwtDecode(token)
+const name = decoded.name || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+const role = decoded.role || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+
+setUserName(name)
+setRole(role)
+
     } catch {
       navigate('/')
     }

@@ -36,6 +36,9 @@ namespace TurfBooking.API.Controllers
         {
             if (slotEnd <= slotStart)
                 return BadRequest("End time must be after start time");
+            if (slotStart < DateTime.Now || slotEnd < DateTime.Now)
+                return BadRequest("You cannot book a slot in the past");
+
 
             // Check for conflicting bookings
             var conflict = await _context.Bookings.AnyAsync(b =>
@@ -70,7 +73,6 @@ namespace TurfBooking.API.Controllers
             var booking = await _context.Bookings.FindAsync(id);
             if (booking == null)
                 return NotFound();
-
             _context.Bookings.Remove(booking);
             await _context.SaveChangesAsync();
 

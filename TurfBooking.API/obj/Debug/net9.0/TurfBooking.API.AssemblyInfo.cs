@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TurfBooking.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+caeb6dc8886f9e2782642bd2d3d37389fee8148e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df275a591c96044e009279bbba090c866e010b3d")]
 [assembly: System.Reflection.AssemblyProductAttribute("TurfBooking.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TurfBooking.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
